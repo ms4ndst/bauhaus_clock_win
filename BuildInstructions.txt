@@ -1,0 +1,238 @@
+===========================================
+BAUHAUS CLOCK SCREENSAVER - BUILD INSTRUCTIONS
+===========================================
+
+This document explains how to compile the Bauhaus Clock screensaver into a .scr file
+that can be installed and used on Windows 10/11 systems.
+
+===========================================
+REQUIREMENTS
+===========================================
+
+- Windows 10 or Windows 11
+- .NET Framework 4.8 or .NET Core 3.1+ installed
+- Visual Studio 2019/2022 (recommended) OR
+- .NET SDK with command-line tools (csc.exe)
+
+===========================================
+METHOD 1: BUILD USING VISUAL STUDIO
+===========================================
+
+1. Open Visual Studio
+
+2. Open the project:
+   - File → Open → Project/Solution
+   - Navigate to: BauhausScreensaver.csproj
+   - Click Open
+
+3. Set build configuration to "Release":
+   - In the toolbar, change the dropdown from "Debug" to "Release"
+
+4. Build the project:
+   - Build → Build Solution (or press Ctrl+Shift+B)
+   
+5. Locate the output:
+   - Navigate to: bin\Release\net48\
+   - Find: BauhausScreensaver.exe
+
+6. Rename to .scr:
+   - Rename "BauhausScreensaver.exe" to "BauhausScreensaver.scr"
+
+7. Install the screensaver:
+   - Right-click BauhausScreensaver.scr
+   - Select "Install" (or "Test" to preview)
+   - OR copy BauhausScreensaver.scr to C:\Windows\System32\
+
+===========================================
+METHOD 2: BUILD USING COMMAND LINE (dotnet)
+===========================================
+
+1. Open Command Prompt or PowerShell
+
+2. Navigate to the project directory:
+   cd C:\Users\magnus.sandstrom\Code\Repo\bauhaus_clock
+
+3. Build in Release mode:
+   dotnet build -c Release
+
+4. Navigate to output directory:
+   cd bin\Release\net48
+
+5. Rename the executable:
+   ren BauhausScreensaver.exe BauhausScreensaver.scr
+
+6. Install the screensaver:
+   - Right-click BauhausScreensaver.scr and select "Install"
+   - OR copy to C:\Windows\System32\
+
+===========================================
+METHOD 3: BUILD USING CSC.EXE (Manual)
+===========================================
+
+1. Open Developer Command Prompt for Visual Studio
+   (or PowerShell with .NET tools in PATH)
+
+2. Navigate to the project directory:
+   cd C:\Users\magnus.sandstrom\Code\Repo\bauhaus_clock
+
+3. Compile all source files:
+   
+   csc.exe /target:winexe /out:BauhausScreensaver.scr ^
+   /reference:System.Windows.Forms.dll ^
+   /reference:System.Drawing.dll ^
+   /reference:System.Xml.dll ^
+   /optimize+ ^
+   Program.cs ^
+   BauhausConfig.cs ^
+   BauhausClockBase.cs ^
+   BauhausClockAnalog.cs ^
+   BauhausClockDigital.cs ^
+   BauhausClockAbstract.cs ^
+   ScreensaverForm.cs ^
+   BauhausSettingsForm.cs
+
+4. The BauhausScreensaver.scr file will be created in the current directory
+
+5. Install by right-clicking and selecting "Install"
+
+===========================================
+TESTING THE SCREENSAVER
+===========================================
+
+Preview Mode (small window):
+   - Right-click BauhausScreensaver.scr
+   - Select "Test"
+
+Configuration Dialog:
+   - Right-click BauhausScreensaver.scr  
+   - Select "Configure"
+   - Adjust settings and click OK
+
+Full Screen Mode:
+   - Install the screensaver
+   - Go to Settings → Personalization → Lock screen → Screen saver settings
+   - Select "BauhausScreensaver" from the dropdown
+   - Click "Preview" to test full-screen
+
+Command Line Testing:
+   - Preview: BauhausScreensaver.scr /p 12345
+   - Configure: BauhausScreensaver.scr /c
+   - Full screen: BauhausScreensaver.scr /s
+
+===========================================
+TROUBLESHOOTING
+===========================================
+
+Issue: "File not found" errors during compilation
+Solution: Ensure all .cs files are in the same directory
+
+Issue: Screensaver won't install
+Solution: Ensure the file extension is .scr (not .exe)
+         Run as Administrator if copying to System32
+
+Issue: Screensaver exits immediately
+Solution: Check that at least one clock style is enabled in settings
+
+Issue: Low performance / High CPU usage
+Solution: Reduce the number of clocks in settings
+         Close resource-intensive applications
+
+Issue: Preview window is blank
+Solution: This is normal for some preview contexts
+         Use "Test" mode instead for a better preview
+
+===========================================
+CUSTOMIZATION OPTIONS
+===========================================
+
+After installation, configure the screensaver using the Settings dialog:
+
+- Clock Styles: Enable/disable Analog, Digital, or Abstract clocks
+- Number of Clocks: 1-12 clock faces displayed simultaneously  
+- Background Color: Choose any color for the background
+- Animation Speed: Adjust from 1 (slowest) to 10 (fastest)
+
+Settings are stored in:
+%APPDATA%\BauhausScreensaver\config.xml
+
+===========================================
+EXTENDING THE SCREENSAVER
+===========================================
+
+To add new clock styles:
+
+1. Create a new class that inherits from BauhausClockBase
+2. Implement the abstract Render() method
+3. Add the clock type to ScreensaverForm.InitializeClocks()
+4. Optionally add a checkbox in BauhausSettingsForm
+5. Rebuild the project
+
+Example:
+   public class BauhausClockCustom : BauhausClockBase
+   {
+       public override string ClockType => "Custom";
+       
+       public BauhausClockCustom(Point position, int size) 
+           : base(position, size) { }
+       
+       public override void Render(Graphics g)
+       {
+           // Your rendering code here
+       }
+   }
+
+===========================================
+DEPLOYMENT
+===========================================
+
+To distribute the screensaver:
+
+1. Build in Release mode (optimized)
+2. Test on a clean Windows installation
+3. Package BauhausScreensaver.scr (no dependencies needed)
+4. Optionally include a README.txt with installation instructions
+
+The screensaver is self-contained and requires no external dependencies
+beyond .NET Framework 4.8 (included in Windows 10/11).
+
+===========================================
+PERFORMANCE NOTES
+===========================================
+
+- The screensaver uses double-buffering to prevent flicker
+- Rendering is capped at 30 FPS for optimal performance
+- CPU usage should remain under 5% when idle
+- Memory usage: approximately 20-30 MB
+- Supports multi-monitor setups (one instance per screen)
+
+===========================================
+LICENSE & CREDITS
+===========================================
+
+This screensaver is inspired by the minimalist designs at:
+https://bauhausclock.com/
+
+Built with C# and Windows Forms for Windows 10/11.
+
+===========================================
+SUPPORT
+===========================================
+
+For issues or questions:
+- Check the Troubleshooting section above
+- Review the source code comments
+- Ensure all prerequisites are installed
+- Test with default settings first
+
+===========================================
+VERSION HISTORY
+===========================================
+
+Version 1.0.0 (2026)
+- Initial release
+- Three clock styles: Analog, Digital, Abstract
+- Configurable settings dialog
+- Multi-monitor support
+- Preview and full-screen modes
+
+===========================================

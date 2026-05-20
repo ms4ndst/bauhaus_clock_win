@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>BauhausScreensaver</AssemblyName>
+    <RootNamespace>BauhausScreensaver</RootNamespace>
+    <ApplicationIcon />
+    <StartupObject>BauhausScreensaver.Program</StartupObject>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Version>1.0.0</Version>
+    <Authors>Bauhaus Clock Team</Authors>
+    <Company>Bauhaus Clock</Company>
+    <Product>Bauhaus Clock Screensaver</Product>
+    <Description>A geometric, minimalist screensaver inspired by Bauhaus design principles</Description>
+    <Copyright>Copyright © 2026</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+
+  <!-- Windows expects screensavers as *.scr. We keep the .exe so the IDE can run/debug
+       and copy it to .scr after each build, so any build path (Build.bat, `dotnet build`,
+       IDE build) produces the installable artifact. -->
+  <Target Name="CopyExeToScr" AfterTargets="Build">
+    <Delete Files="$(OutputPath)$(AssemblyName).scr" Condition="Exists('$(OutputPath)$(AssemblyName).scr')" />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).exe" DestinationFiles="$(OutputPath)$(AssemblyName).scr" />
+  </Target>
+
+</Project>

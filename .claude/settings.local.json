@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir C:\\\\Users\\\\magnus.sandstrom\\\\Code\\\\Repo\\\\bauhaus_clock)",
+      "Bash(dotnet build *)"
+    ]
+  }
+}
