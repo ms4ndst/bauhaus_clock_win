@@ -4,6 +4,11 @@ A Windows screensaver that renders a single, faithful clock face inspired by [ba
 
 Built on .NET Framework 4.8 + Windows Forms + GDI+. Single executable, no third-party dependencies.
 
+<p align="center">
+  <img src="images/main.png" alt="Bauhaus Clock" width="45%" />
+  <img src="images/settings.png" alt="Settings Dialog" width="45%" />
+</p>
+
 ## Quick start
 
 ### Install
