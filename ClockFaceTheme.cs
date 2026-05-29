@@ -74,16 +74,25 @@ namespace BauhausScreensaver
         /// <summary>
         /// Produces a runtime variant with every visible element swapped for a single
         /// lume colour over a near-black background. Used when night appearance kicks in.
+        /// Minute numerals are rendered at 65% opacity to maintain the visual hierarchy
+        /// that exists in day themes.
         /// </summary>
         public ClockFaceTheme AsNight(Color lume)
         {
+            // Dim the minute numerals to maintain visual hierarchy (same as day mode)
+            Color dimmedLume = Color.FromArgb(
+                (int)(lume.A * 0.65),
+                lume.R,
+                lume.G,
+                lume.B);
+
             return new ClockFaceTheme(
                 Id, DisplayName,
                 background: Color.FromArgb(10, 10, 10),
                 pillColor: lume,
                 tickColor: lume,
                 hourNumeralColor: lume,
-                minuteNumeralColor: lume,
+                minuteNumeralColor: dimmedLume,
                 handColor: lume,
                 centreHubColor: lume,
                 isDark: true,

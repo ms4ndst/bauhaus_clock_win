@@ -134,6 +134,11 @@ namespace BauhausScreensaver
             // Chunkier markers — references show pills as the dominant outer-ring element.
             float markerLength = radius * 0.13f;
             float markerWidth = radius * 0.045f;
+            
+            // Prevent crash when clock is rendered too small for valid arc geometry
+            if (markerWidth < 1f || markerLength < 1f)
+                return;
+            
             // Pills sit just inside the tick ring (~0.88 of radius), between hour numerals
             // (~0.65) and minute numerals (~1.05) — matches the reference dials.
             float markerRadius = radius * 0.88f;
